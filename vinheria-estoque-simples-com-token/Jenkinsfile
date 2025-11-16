@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Build simples da Vinheria'
+                echo 'Deploy da Vinheria'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                script {
+                    // Pasta de publicação (deploy)
+                    def publishDir = 'C:\\vinheria-publish'
+
+                    // Cria a pasta se não existir
+                    bat """
+                    if not exist "${publishDir}" (
+                        mkdir "${publishDir}"
+                    )
+                    """
+
+                    // Copia os arquivos do workspace do Jenkins para a pasta de publicação
+                    bat """
+                    xcopy "%WORKSPACE%\\*" "${publishDir}\\" /E /Y /I
+                    """
+                }
+            }
+        }
+    }
+}
