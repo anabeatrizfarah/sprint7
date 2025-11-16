@@ -4,25 +4,24 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Build simples da Vinheria'
-                echo 'Deploy da Vinheria'
+                echo "Deploy da Vinheria"
             }
         }
 
         stage('Deploy') {
             steps {
                 script {
-                    // Pasta de publicação (deploy)
-                    def publishDir = 'C:\\vinheria-publish'
+                    // pasta de publicação (deploy)
+                    def publishDir = 'C:\\deploy-vinheria'
 
-                    // Cria a pasta se não existir
+                    // cria a pasta se não existir
                     bat """
                     if not exist "${publishDir}" (
                         mkdir "${publishDir}"
                     )
                     """
 
-                    // Copia os arquivos do workspace do Jenkins para a pasta de publicação
+                    // copia tudo que está no workspace do Jenkins (seu repo) para a pasta de deploy
                     bat """
                     xcopy "%WORKSPACE%\\*" "${publishDir}\\" /E /Y /I
                     """
@@ -31,3 +30,4 @@ pipeline {
         }
     }
 }
+
